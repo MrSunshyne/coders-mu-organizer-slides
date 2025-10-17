@@ -104,20 +104,20 @@ const props = withDefaults(defineProps<Props>(), {
               </h2>
               
               <!-- Company & Job Title -->
-              <div class="space-y-1">
-                <p v-if="company" class="text-2xl font-bold text-theme-orange">
+              <div class="space-y-1">                
+                <span v-if="jobTitle" class="text-xl text-gray-400 font-medium">
+                  {{ jobTitle }} @ 
+                </span>
+                <span v-if="company" class="text-xl font-bold text-theme-orange">
                   {{ company }}
-                </p>
-                <p v-if="jobTitle" class="text-xl text-gray-600 font-medium">
-                  {{ jobTitle }}
-                </p>
+                </span>
               </div>
               
               <!-- Divider -->
               <div class="w-80px h-4px bg-theme-yellow transform -skew-x-12 my-2"></div>
               
               <!-- Talk title -->
-              <h1 class="text-3xl font-black text-gray-900 leading-tight">
+              <h1 class="text-4xl font-black text-gray-900 leading-tight">
                 {{ talkTitle }}
               </h1>
               

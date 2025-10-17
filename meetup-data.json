@@ -12,32 +12,41 @@
       "name": "Sandeep Ramgolam",
       "talkTitle": "Vibe Coding - experiences and lessons learned",
       "githubUsername": "MrSunshyne",
-      "githubAvatar": "https://github.com/cedpoilly.png",
-      "company": "Livestorm"
+      "githubAvatar": "https://github.com/MrSunshyne.png",
+      "company": "Livestorm",
+      "jobTitle": "Senior Software Engineer"
     },
     {
       "name": "Danshil Kokil Mungur",
       "talkTitle": "How to be a good client?",
       "githubUsername": "danshilm",
-      "githubAvatar": "https://github.com/danshilm.png"
+      "githubAvatar": "https://github.com/danshilm.png",
+      "company": "Publicis Global Delivery",
+      "jobTitle": "Software Engineer"
     },
     {
       "name": "Primrose Lunda",
       "talkTitle": "Web Performance Optimisations",
       "githubUsername": null,
-      "githubAvatar": null
+      "githubAvatar": null,
+      "company": "Publicis Global Delivery",
+      "jobTitle": "Software Engineer"
     },
     {
       "name": "Joshua Iwugod",
       "talkTitle": "From cart to check out: The security gap when you trust localStorage.",
       "githubUsername": "iwugod",
-      "githubAvatar": "https://github.com/iwugod.png"
+      "githubAvatar": "https://github.com/iwugod.png",
+      "company": "?",
+      "jobTitle": "Software Engineer"
     },
     {
       "name": "Saamiyah Peerun",
       "talkTitle": "When TypeScript isn't enough, call Zod",
       "githubUsername": "saamiyah",
-      "githubAvatar": "https://github.com/saamiyah.png"
+      "githubAvatar": "https://github.com/saamiyah.png",
+      "company": "Ringier Axel Springer",
+      "jobTitle": "Senior Frontend Engineer"
     }
   ],
   "sponsor": {

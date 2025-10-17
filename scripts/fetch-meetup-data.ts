@@ -246,6 +246,17 @@ function applyOverrides(data: MeetupData, overrides: MeetupDataOverride | null):
     )
   }
   
+  // Helper to normalize field names (jobtitle -> jobTitle)
+  const normalizeFieldNames = (obj: any): any => {
+    const normalized: any = {}
+    for (const [key, value] of Object.entries(obj)) {
+      // Convert 'jobtitle' to 'jobTitle' for consistency
+      const normalizedKey = key === 'jobtitle' ? 'jobTitle' : key
+      normalized[normalizedKey] = value
+    }
+    return normalized
+  }
+  
   console.log('\n🔄 Applying overrides...')
   
   // Apply meetup overrides (skip null values)
@@ -257,12 +268,13 @@ function applyOverrides(data: MeetupData, overrides: MeetupDataOverride | null):
     }
   }
   
-  // Apply speaker overrides (skip null values)
+  // Apply speaker overrides (skip null values and normalize field names)
   if (overrides.speakers) {
     data.speakers = data.speakers.map(speaker => {
       const override = overrides.speakers![speaker.name]
       if (override) {
-        const validOverrides = removeNulls(override)
+        const normalizedOverride = normalizeFieldNames(override)
+        const validOverrides = removeNulls(normalizedOverride)
         if (Object.keys(validOverrides).length > 0) {
           console.log(`   ✓ ${speaker.name}: ${Object.keys(validOverrides).join(', ')}`)
           return { ...speaker, ...validOverrides }
@@ -303,41 +315,20 @@ function generateSpeakerSlide(speaker: {
   jobTitle?: string
   bio?: string
 }, index: number): string {
-  const avatarSection = speaker.githubAvatar
-    ? `<img src="${speaker.githubAvatar}" alt="${speaker.name}" class="w-full h-full object-cover" />`
-    : `<div class="flex items-center justify-center h-full text-white text-6xl font-bold">${speaker.name.charAt(0)}</div>`
-
-  // Build extra fields HTML
-  const extraFields: string[] = []
-  if (speaker.company) {
-    extraFields.push(`  <p class="text-xl text-white/80">${speaker.company}</p>`)
-  }
-  if (speaker.jobTitle) {
-    extraFields.push(`  <p class="text-lg text-white/70">${speaker.jobTitle}</p>`)
-  }
-  if (speaker.bio) {
-    extraFields.push(`  <p class="text-base text-white/60 mt-4">${speaker.bio}</p>`)
-  }
-  const extraFieldsHtml = extraFields.length > 0 ? '\n' + extraFields.join('\n') : ''
+  // Build frontmatter properties
+  const frontmatter: string[] = [
+    'layout: speaker-intro',
+    speaker.githubAvatar ? `image: ${speaker.githubAvatar}` : '',
+    `name: ${speaker.name}`,
+    `talkTitle: ${speaker.talkTitle}`,
+    speaker.githubUsername ? `github: ${speaker.githubUsername}` : '',
+    speaker.company ? `company: ${speaker.company}` : '',
+    speaker.jobTitle ? `jobTitle: ${speaker.jobTitle}` : '',
+  ].filter(Boolean) // Remove empty strings
 
   return `---
-layout: two-cols
+${frontmatter.join('\n')}
 ---
-
-::default::
-
-# ${speaker.talkTitle}
-
-${speaker.githubUsername ? `**GitHub:** @${speaker.githubUsername}` : ''}
-
-::right::
-
-<div class="flex flex-col items-center justify-center h-full gap-6">
-  <div class="w-300px h-300px rounded-full overflow-hidden border-4 border-white shadow-2xl">
-    ${avatarSection}
-  </div>
-  <h2 class="text-4xl font-bold text-white text-center">${speaker.name}</h2>${extraFieldsHtml}
-</div>
 `
 }
 

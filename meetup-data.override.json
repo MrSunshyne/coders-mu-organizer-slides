@@ -3,24 +3,23 @@
   "speakers": {
     "Sandeep Ramgolam": {
       "company": "Livestorm",
-      "jobtitle": null,
-      "githubAvatar": "https://github.com/cedpoilly.png"
+      "jobtitle": "Senior Software Engineer"
     },
     "Danshil Kokil Mungur": {
-      "company": null,
-      "jobtitle": null
+      "company": "Publicis Global Delivery",
+      "jobtitle": "Software Engineer"
     },
     "Primrose Lunda": {
-      "company": null,
-      "jobtitle": null
+      "company": "Publicis Global Delivery",
+      "jobtitle": "Software Engineer"
     },
     "Joshua Iwugod": {
-      "company": null,
-      "jobtitle": null
+      "company": "?",
+      "jobtitle": "Software Engineer"
     },
     "Saamiyah Peerun": {
-      "company": null,
-      "jobtitle": null
+      "company": "Ringier Axel Springer",
+      "jobtitle": "Senior Frontend Engineer"
     }
   },
   "sponsor": {}
