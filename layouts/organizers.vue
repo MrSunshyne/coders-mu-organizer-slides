@@ -93,9 +93,9 @@ const borderColors = ['#0080FF', '#FFD700', '#FF6B4A']
             
             <!-- Info below photo -->
             <div class="mt-4 max-w-140px">
-              <h3 class="text-base font-black text-gray-900 mb-0 leading-tight">
+              <p class="text-base font-black  mb-0 leading-tight text-white">
                 {{ organizers[0].name }}
-              </h3>
+              </p>
               <p class="text-xs text-gray-600 font-medium leading-tight">
                 {{ organizers[0].title }}
               </p>
@@ -134,9 +134,9 @@ const borderColors = ['#0080FF', '#FFD700', '#FF6B4A']
 
             <!-- Info below photo -->
             <div class="mt-4 max-w-140px">
-              <h3 class="text-base font-black text-gray-900 mb-0 leading-tight">
+              <p class="text-base font-black  mb-0 leading-tight text-white">
                 {{ organizers[1].name }}
-              </h3>
+              </p>
               <p class="text-xs text-gray-600 font-medium leading-tight">
                 {{ organizers[1].title }}
               </p>
@@ -174,9 +174,9 @@ const borderColors = ['#0080FF', '#FFD700', '#FF6B4A']
               
                 <!-- Info below photo -->
                 <div class="mt-4 max-w-140px">
-                <h3 class="text-base font-black text-gray-900 mb-0 leading-tight">
+                <p class="text-base font-black  mb-0 leading-tight text-white">
                     {{ organizers[2].name }}
-                </h3>
+                </p>
                 <p class="text-xs text-gray-600 font-medium leading-tight">
                     {{ organizers[2].title }}
                 </p>
