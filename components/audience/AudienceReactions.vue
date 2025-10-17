@@ -35,15 +35,6 @@
       </div>
     </div>
 
-    <!-- Ripple effects -->
-    <div class="ripple-container">
-      <div
-        v-for="ripple in ripples"
-        :key="ripple.id"
-        class="ripple"
-        :style="ripple.style"
-      ></div>
-    </div>
 
     <!-- Controls - only show if not in presenter mode or if explicitly enabled -->
     <div v-if="showControls" class="controls">
@@ -486,7 +477,7 @@ onUnmounted(() => {
   width: 150%;
   height: 150%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(255, 0, 255, 0.4) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(0, 255, 64, 0.4) 0%, transparent 60%);
   animation: glowPulse 1s ease-in-out infinite;
   z-index: -2;
 }
