@@ -29,8 +29,8 @@ const photoUrl = computed(() => {
       <div class="layout-default h-full flex items-center justify-center p-0 relative">
         <!-- Display image if photo prop is provided -->
         <img 
-          v-if="photo" 
-          :src="photo" 
+          v-if="photoUrl" 
+          :src="photoUrl" 
           alt="Slide Image" 
           class="w-full h-full object-cover"
         />
