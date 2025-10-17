@@ -9,7 +9,7 @@ const props = defineProps<{
 
 const photoUrl = computed(() => {
   //prepend photo with /coders-mu-organizer-slides in github pages but in local use unchanged
-  return process.env.NODE_ENV === 'production' ? `/coders-mu-organizer-slides/${props.photo}` : props.photo
+  return process.env.GITHUB_ACTIONS ? `/coders-mu-organizer-slides/${props.photo}` : props.photo
 })
 </script>
 
