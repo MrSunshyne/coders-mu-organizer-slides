@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, withDefaults } from 'vue'
+import { defineProps, withDefaults, computed } from 'vue'
 
 interface Props {
   image?: string
@@ -18,6 +18,63 @@ const props = withDefaults(defineProps<Props>(), {
   company: '',
   jobTitle: '',
 })
+
+// Generate random border-radius for organic blob shapes
+const randomBorderRadius = computed(() => {
+  // Use name as seed for consistent randomness per speaker
+  const seed = props.name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+  
+  // Pseudo-random number generator with seed
+  const random = (min: number, max: number, offset: number) => {
+    const x = Math.sin(seed + offset) * 10000
+    const rand = x - Math.floor(x)
+    return Math.floor(rand * (max - min + 1)) + min
+  }
+  
+  // Generate 8 values for 4 corners (horizontal and vertical radius for each)
+  const values = [
+    random(40, 70, 1),  // top-left horizontal
+    random(40, 70, 2),  // top-left vertical
+    random(40, 70, 3),  // top-right horizontal
+    random(40, 70, 4),  // top-right vertical
+    random(40, 70, 5),  // bottom-right horizontal
+    random(40, 70, 6),  // bottom-right vertical
+    random(40, 70, 7),  // bottom-left horizontal
+    random(40, 70, 8),  // bottom-left vertical
+  ]
+  
+  return `${values[0]}% ${values[1]}% ${values[2]}% ${values[3]}% / ${values[4]}% ${values[5]}% ${values[6]}% ${values[7]}%`
+})
+
+// Generate random border-radius for accent blob
+const accentBlobRadius = computed(() => {
+  const seed = props.name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+  
+  const random = (min: number, max: number, offset: number) => {
+    const x = Math.sin(seed + offset + 100) * 10000
+    const rand = x - Math.floor(x)
+    return Math.floor(rand * (max - min + 1)) + min
+  }
+  
+  const values = [
+    random(30, 70, 1),
+    random(30, 70, 2),
+    random(30, 70, 3),
+    random(30, 70, 4),
+    random(30, 70, 5),
+    random(30, 70, 6),
+    random(30, 70, 7),
+    random(30, 70, 8),
+  ]
+  
+  return `${values[0]}% ${values[1]}% ${values[2]}% ${values[3]}% / ${values[4]}% ${values[5]}% ${values[6]}% ${values[7]}%`
+})
+
+// Determine if layout should be flipped (alternating between speakers)
+const isFlipped = computed(() => {
+  const seed = props.name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+  return seed % 2 === 0
+})
 </script>
 
 <template>
@@ -35,15 +92,24 @@ const props = withDefaults(defineProps<Props>(), {
     <div class="absolute inset-0 flex items-center justify-center z-1 p-12 pr-16">
       <div class="relative w-full h-full max-w-1350px max-h-750px">
         
-        <!-- Large speaker photo - positioned on the left, overlapping cards -->
+        <!-- Large speaker photo - positioned dynamically -->
         <div 
-          class="absolute left-20px top-1/2 transform -translate-y-1/2 z-20"
-          style="view-transition-name: speaker-photo"
+          class="absolute top-1/2 transform -translate-y-1/2 z-20"
+          :class="isFlipped ? 'right-20px' : 'left-20px'"
         >
           <div class="relative">
             <!-- Photo container with shadow -->
-            <div class="w-360px h-360px rounded-20px overflow-hidden border-6 border-black shadow-2xl bg-white p-3">
-              <div class="w-full h-full rounded-16px overflow-hidden">
+            <div 
+              class="w-360px h-360px overflow-hidden border-6 border-black shadow-2xl bg-white p-3"
+              :style="{ borderRadius: randomBorderRadius }"
+              style="view-transition-name: speaker-photo-border"
+ 
+            >
+              <div 
+                class="w-full h-full overflow-hidden"
+                :style="{ borderRadius: randomBorderRadius }"
+                style="view-transition-name: speaker-photo"
+              >
                 <img 
                   v-if="image" 
                   :src="image" 
@@ -59,13 +125,20 @@ const props = withDefaults(defineProps<Props>(), {
               </div>
             </div>
             
-            <!-- Green accent blob behind photo -->
-            <div class="absolute -bottom-20px -right-20px w-120px h-120px bg-theme-green rounded-full -z-10"></div>
+            <!-- Green accent blob behind photo - position flips with layout -->
+            <div 
+              class="absolute -bottom-20px w-120px h-120px bg-theme-green -z-10"
+              :class="isFlipped ? '-left-20px' : '-right-20px'"
+              :style="{ borderRadius: accentBlobRadius }"
+            ></div>
           </div>
         </div>
 
-        <!-- Main white card with content -->
-        <div class="absolute left-260px top-1/2 transform -translate-y-1/2 right-20px h-480px">
+        <!-- Main white card with content - position flips -->
+        <div 
+          class="absolute top-1/2 transform -translate-y-1/2 h-480px"
+          :class="isFlipped ? 'right-260px left-20px' : 'left-260px right-20px'"
+        >
           <!-- Yellow card (bottom) -->
           <div 
             class="absolute w-full h-full top-30px left-30px bg-theme-yellow rounded-16px border-4 border-black shadow-xl z-1"
@@ -83,17 +156,26 @@ const props = withDefaults(defineProps<Props>(), {
             class="absolute w-full h-full top-0 left-0 bg-white rounded-16px border-4 border-black shadow-2xl z-3 overflow-hidden"
             style="view-transition-name: card-layer-white"
           >
-            <!-- Content area -->
-            <div class="h-full flex flex-col justify-center gap-5 relative px-12 py-10 pl-150px pr-16">
+            <!-- Content area - padding flips based on layout direction -->
+            <div 
+              class="h-full flex flex-col justify-center gap-5 relative px-12 py-10"
+              :class="isFlipped ? 'pr-150px pl-16' : 'pl-150px pr-16'"
+            >
               
-              <!-- Presenting badge -->
-              <div class="fixed -top-30px right-40px">
+              <!-- Presenting badge - position flips -->
+              <div 
+                class="fixed -top-30px"
+                :class="isFlipped ? 'left-40px' : 'right-40px'"
+              >
                 <div class="relative">
-                  <div class="bg-theme-yellow px-8 py-3 rounded-full border-4 border-black shadow-lg transform rotate-3">
+                  <div 
+                    class="bg-theme-yellow px-8 py-3 rounded-full border-4 border-black shadow-lg transform"
+                    :class="isFlipped ? '-rotate-3' : 'rotate-3'"
+                  >
                     <span class="text-xl font-black text-black uppercase tracking-wide">Presenting</span>
                   </div>
                   <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-8xl text-theme-orange opacity-20 -z-10">
-                    →
+                    {{ isFlipped ? '←' : '→' }}
                   </div>
                 </div>
               </div>

@@ -315,15 +315,29 @@ function generateSpeakerSlide(speaker: {
   jobTitle?: string
   bio?: string
 }, index: number): string {
+  // Helper to properly quote YAML values if they contain special characters
+  const quoteIfNeeded = (value: string): string => {
+    // Skip placeholder values
+    if (value === '?' || value === '???' || value.trim() === '') {
+      return ''
+    }
+    // Quote if value contains special YAML characters: : { } [ ] , & * # ? | - < > = ! % @ \
+    if (/[:{}\[\],&*#?|\-<>=!%@\\]/.test(value) || value.includes(': ') || value.startsWith('"')) {
+      // Escape quotes and wrap in quotes
+      return `"${value.replace(/"/g, '\\"')}"`
+    }
+    return value
+  }
+
   // Build frontmatter properties
   const frontmatter: string[] = [
     'layout: speaker-intro',
     speaker.githubAvatar ? `image: ${speaker.githubAvatar}` : '',
-    `name: ${speaker.name}`,
-    `talkTitle: ${speaker.talkTitle}`,
+    `name: ${quoteIfNeeded(speaker.name) || speaker.name}`,
+    `talkTitle: ${quoteIfNeeded(speaker.talkTitle) || speaker.talkTitle}`,
     speaker.githubUsername ? `github: ${speaker.githubUsername}` : '',
-    speaker.company ? `company: ${speaker.company}` : '',
-    speaker.jobTitle ? `jobTitle: ${speaker.jobTitle}` : '',
+    speaker.company && quoteIfNeeded(speaker.company) ? `company: ${quoteIfNeeded(speaker.company)}` : '',
+    speaker.jobTitle && quoteIfNeeded(speaker.jobTitle) ? `jobTitle: ${quoteIfNeeded(speaker.jobTitle)}` : '',
   ].filter(Boolean) // Remove empty strings
 
   return `---
