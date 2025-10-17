@@ -1,57 +1,26 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { computed } from 'vue'
+import meetupData from '../meetup-data.json'
 
 interface SponsorData {
   name: string
   logo: string | null
 }
 
-interface MeetupData {
-  sponsor: SponsorData | null
-}
-
-const sponsor = ref<SponsorData | null>(null)
-const loading = ref(true)
-const error = ref<string | null>(null)
+const sponsor = meetupData.sponsor as SponsorData | null
 
 const sponsorLogo = computed(() => {
-
   // if the logo url starts with https://frontend.mu/assets/, then replace it with https://directus.coders.mu/assets/
-  
-  if (sponsor.value?.logo?.startsWith('https://frontend.mu/assets/')) {
-    return sponsor.value.logo.replace('https://frontend.mu/assets/', 'https://directus.coders.mu/assets/')
+  if (sponsor?.logo?.startsWith('https://frontend.mu/assets/')) {
+    return sponsor.logo.replace('https://frontend.mu/assets/', 'https://directus.coders.mu/assets/')
   }
-  return sponsor.value?.logo
-})
-
-onMounted(async () => {
-  try {
-    const response = await fetch('/meetup-data.json')
-    if (!response.ok) {
-      throw new Error('Failed to load meetup data')
-    }
-    const data: MeetupData = await response.json()
-    sponsor.value = data.sponsor
-  } catch (e) {
-    error.value = e instanceof Error ? e.message : 'Unknown error'
-    console.error('Error loading sponsor data:', e)
-  } finally {
-    loading.value = false
-  }
+  return sponsor?.logo
 })
 </script>
 
 <template>
   <div class="sponsor-slide">
-    <div v-if="loading" class="text-white/60 text-2xl">
-      Loading...
-    </div>
-    
-    <div v-else-if="error" class="text-red-400 text-xl">
-      {{ error }}
-    </div>
-    
-    <div v-else-if="sponsor" class="flex flex-col items-center gap-12">
+    <div v-if="sponsor" class="flex flex-col items-center gap-12">
       <h2 class="text-4xl font-bold text-white mb-4">
         Thank You to Our Sponsor
       </h2>

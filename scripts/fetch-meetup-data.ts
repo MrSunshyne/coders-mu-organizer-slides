@@ -1,6 +1,6 @@
 #!/usr/bin/env node --experimental-strip-types
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync, copyFileSync } from 'fs'
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
 import { resolve } from 'path'
 
 // Data source URLs
@@ -476,11 +476,6 @@ async function fetchMeetupData() {
   writeFileSync(outputPath, JSON.stringify(meetupData, null, 2), 'utf-8')
   
   console.log(`\n✨ Data saved to: meetup-data.json`)
-  
-  // Copy to public folder for runtime access
-  const publicPath = resolve(process.cwd(), 'public/meetup-data.json')
-  copyFileSync(outputPath, publicPath)
-  console.log('📋 Copied to: public/meetup-data.json')
   
   // Generate speaker slides
   generateSpeakerSlides(meetupData.speakers)

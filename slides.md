@@ -107,3 +107,8 @@ src: ./pages/generated/speakers/speaker-5.md
 hide: false
 ---
 
+---
+src: ./pages/meetups/66/vibe.md
+hide: false
+---
+
