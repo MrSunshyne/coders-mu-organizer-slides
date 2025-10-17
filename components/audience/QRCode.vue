@@ -3,7 +3,7 @@
     <div class="qr-code-box">
       <div class="qr-placeholder">
         <div class="qr-text">
-          <h3>{{ title }}</h3>
+          <p>{{ title }}</p>
         </div>
         <img 
           v-if="qrUrl" 
@@ -70,13 +70,12 @@ const qrUrl = computed(() => {
 
 .qr-text {
   text-align: center;
-  color: #333;
 }
 
 .qr-text h3 {
   font-size: 24px;
   margin-bottom: 10px;
-  color: #111;
+  color: var(--theme-text-color);
 }
 
 .qr-text p {
