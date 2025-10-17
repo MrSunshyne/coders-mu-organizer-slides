@@ -107,23 +107,3 @@ src: ./pages/generated/speakers/speaker-5.md
 hide: false
 ---
 
----
-src: ./pages/examples/test-theme.md
-hide: false
----
-
----
-src: ./pages/examples/test-two-cols.md
-hide: false
----
-
----
-src: ./pages/examples/test-image-right.md
-hide: false
----
-
----
-src: ./pages/examples/test-center.md
-hide: false
----
-

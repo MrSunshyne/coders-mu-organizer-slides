@@ -199,7 +199,7 @@ const isFlipped = computed(() => {
               <div class="w-80px h-4px bg-theme-yellow transform -skew-x-12 my-2"></div>
               
               <!-- Talk title -->
-              <h1 class="text-4xl font-black text-gray-900 leading-tight">
+              <h1 class="text-4xl font-black  leading-tight">
                 {{ talkTitle }}
               </h1>
               

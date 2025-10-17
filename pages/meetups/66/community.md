@@ -24,7 +24,8 @@ layout: simple
 heading: coders.mu
 ---
 
+- Github : github.com/frontendmu
 - Discord
-- Linkedin
-- Instagram
+- Linkedin : frontend.coders.mu
+- Instagram : @frontendmu
 
