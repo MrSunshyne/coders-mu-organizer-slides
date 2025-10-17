@@ -1,0 +1,22 @@
+{
+  "name": "css-is-fun",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --open",
+    "export": "slidev export",
+    "pdf": "slidev export && mv slides-export.pdf public/"
+  },
+  "dependencies": {
+    "@baseline-banner/vue": "^1.0.0",
+    "@slidev/cli": "^52.1.0",
+    "@slidev/theme-default": "latest",
+    "@slidev/theme-seriph": "latest",
+    "vue": "^3.5.18",
+    "partysocket": "^1.0.2"
+  },
+  "devDependencies": {
+    "playwright-chromium": "^1.55.0"
+  }
+}
