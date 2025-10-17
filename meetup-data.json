@@ -1,0 +1,46 @@
+{
+  "meetup": {
+    "id": 66,
+    "title": "The October Meetup",
+    "date": "2025-10-18",
+    "venue": "PGD Mauritius",
+    "location": "2nd floor Maeva tower Ebène, Mauritius",
+    "time": "10AM to 2PM"
+  },
+  "speakers": [
+    {
+      "name": "Sandeep Ramgolam",
+      "talkTitle": "Vibe Coding - experiences and lessons learned",
+      "githubUsername": "MrSunshyne",
+      "githubAvatar": "https://github.com/MrSunshyne.png"
+    },
+    {
+      "name": "Danshil Kokil Mungur",
+      "talkTitle": "How to be a good client?",
+      "githubUsername": "danshilm",
+      "githubAvatar": "https://github.com/danshilm.png"
+    },
+    {
+      "name": "Primrose Lunda",
+      "talkTitle": "Web Performance Optimisations",
+      "githubUsername": null,
+      "githubAvatar": null
+    },
+    {
+      "name": "Joshua Iwugod",
+      "talkTitle": "From cart to check out: The security gap when you trust localStorage.",
+      "githubUsername": "iwugod",
+      "githubAvatar": "https://github.com/iwugod.png"
+    },
+    {
+      "name": "Saamiyah Peerun",
+      "talkTitle": "When TypeScript isn't enough, call Zod",
+      "githubUsername": "saamiyah",
+      "githubAvatar": "https://github.com/saamiyah.png"
+    }
+  ],
+  "sponsor": {
+    "name": "Publicis Global Delivery",
+    "logo": "https://frontend.mu/assets/21589ac3-6a44-4c64-9218-3a4148289bc7.png"
+  }
+}
