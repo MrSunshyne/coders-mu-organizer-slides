@@ -6,7 +6,8 @@
     "build": "slidev build",
     "dev": "slidev --open",
     "export": "slidev export",
-    "pdf": "slidev export && mv slides-export.pdf public/"
+    "pdf": "slidev export && mv slides-export.pdf public/",
+    "fetch-meetup": "node --experimental-strip-types scripts/fetch-meetup-data.ts"
   },
   "dependencies": {
     "@baseline-banner/vue": "^1.0.0",
