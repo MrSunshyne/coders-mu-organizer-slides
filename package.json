@@ -6,8 +6,6 @@
     "build": "slidev build",
     "build:gh": "slidev build --base /coders-mu-organizer-slides/",
     "dev": "slidev --open",
-    "export": "slidev export",
-    "pdf": "slidev export && mv slides-export.pdf public/",
     "fetch-meetup": "node --experimental-strip-types scripts/fetch-meetup-data.ts"
   },
   "dependencies": {
@@ -18,8 +16,5 @@
     "@vueuse/core": "^13.9.0",
     "partysocket": "^1.0.2",
     "vue": "^3.5.18"
-  },
-  "devDependencies": {
-    "playwright-chromium": "^1.55.0"
   }
 }
