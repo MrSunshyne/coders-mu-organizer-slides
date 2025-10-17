@@ -34,7 +34,7 @@ const props = defineProps<{
         </h1>
         
         <!-- Text content -->
-        <p v-if="text" class="!text-2xl text-gray-700 font-bold leading-relaxed flex-1 text-center py-8">
+        <p v-if="text" class="!text-2xl text-gray-700 font-bold leading-relaxed flex-1 text-center pt-16">
           {{ text }}
         </p>
         

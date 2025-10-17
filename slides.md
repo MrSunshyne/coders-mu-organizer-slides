@@ -51,6 +51,11 @@ seoMeta:
 <!--
 The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
 -->
+---
+src: ./pages/intro/qr.md
+hide: false
+---
+
 
 ---
 src: ./pages/generated/sponsor.md
@@ -60,6 +65,22 @@ hide: false
 ---
 src: ./pages/meetups/66/community.md
 ---
+
+---
+src: ./pages/meetups/66/organizers.md
+---
+
+---
+src: ./pages/meetups/66/gallery.md
+---
+
+---
+layout: intro
+---
+
+# Today's Agenda
+
+<span class="font-bold text-theme-orange">Talks</span> > Lunch break > Group photo > <span class="font-bold text-theme-orange">Talks</span> > Quiz
 
 ---
 src: ./pages/generated/speakers/speaker-1.md
@@ -103,11 +124,6 @@ hide: false
 
 ---
 src: ./pages/examples/test-center.md
-hide: false
----
-
----
-src: ./pages/intro/qr.md
 hide: false
 ---
 

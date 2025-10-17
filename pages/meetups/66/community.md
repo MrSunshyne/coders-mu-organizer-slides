@@ -19,3 +19,12 @@ heading: Mission Statement
 text: Inspire people about technology
 ---
 
+---
+layout: simple
+heading: coders.mu
+---
+
+- Discord
+- Linkedin
+- Instagram
+

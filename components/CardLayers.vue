@@ -1,16 +1,23 @@
 <script setup lang="ts">
 interface Props {
-  size?: 'default' | 'intro'
+  size?: 'default' | 'intro' | 'large'
   centerContent?: boolean
+  noPadding?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   size: 'default',
   centerContent: false,
+  noPadding: false,
 })
 
 // Calculate dimensions based on size
 const dimensions = {
+  large: {
+    width: 'min(95%, 1000px)',
+    height: 'min(85%, 700px)',
+    padding: 'p-0',
+  },
   default: {
     width: 'min(90%, 1400px)',
     height: 'min(85%, 800px)',
@@ -63,9 +70,14 @@ const current = dimensions[props.size]
         <!-- Content area -->
         <div 
           class="flex-1 overflow-auto"
-          :class="centerContent ? 'flex items-center justify-center p-60px' : 'p-30px pt-30px pb-40px px-40px'"
+          :class="{ 
+            'flex items-center justify-center p-60px': centerContent,
+            'p-30px pt-30px pb-40px px-40px': !centerContent && !noPadding,
+            'p-0': noPadding
+
+          }"
         >
-          <div :class="centerContent ? 'text-center max-w-900px' : ''">
+          <div :class="centerContent ? 'text-center max-w-900px' : 'h-full'">
             <slot />
           </div>
         </div>
