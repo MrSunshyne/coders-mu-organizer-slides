@@ -3,7 +3,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "slidev build --base /coders-mu-organizer-slides/",
+    "build": "slidev build",
     "dev": "slidev --open",
     "export": "slidev export",
     "pdf": "slidev export && mv slides-export.pdf public/",

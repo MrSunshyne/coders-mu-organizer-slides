@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import CardLayers from '../components/CardLayers.vue'
-
+import { computed } from 'vue'
 // Define props that will be populated from frontmatter
 const props = defineProps<{
   photo?: string
   caption?: string
 }>()
+
+const photoUrl = computed(() => {
+  //prepend photo with /coders-mu-organizer-slides in github pages but in local use unchanged
+  return process.env.NODE_ENV === 'production' ? `/coders-mu-organizer-slides/${props.photo}` : props.photo
+})
 </script>
 
 <template>
