@@ -108,6 +108,11 @@ hide: false
 ---
 
 ---
+src: ./pages/meetups/66/outages.md
+hide: false
+---
+
+---
 src: ./pages/meetups/66/vibe.md
 hide: false
 ---

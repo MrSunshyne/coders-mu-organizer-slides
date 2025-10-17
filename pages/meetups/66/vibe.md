@@ -33,3 +33,54 @@ heading: Vibe Coding
 ---
 
 ## How many of you vibe code ?
+
+---
+layout: simple
+tagline: coders.mu
+heading: Vibe Coding
+---
+
+## Company policies ?
+
+---
+layout: simple
+tagline: coders.mu
+heading: Vibe Coding
+---
+
+## Reliability
+
+---
+layout: simple
+tagline: coders.mu
+heading: Vibe Coding
+---
+
+## Predictability
+
+---
+layout: simple
+tagline: coders.mu
+heading: Vibe Coding
+---
+
+## Use MCPs
+
+---
+layout: simple
+tagline: coders.mu
+heading: Vibe Coding
+---
+
+## Stark difference from 1 year ago
+
+
+
+---
+layout: simple
+tagline: coders.mu
+heading: Vibe Coding
+---
+
+## MCP Demo
+

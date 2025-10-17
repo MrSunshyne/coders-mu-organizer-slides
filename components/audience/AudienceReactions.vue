@@ -30,7 +30,7 @@
       >
         {{ emoji.emoji }}
         <!-- Emoji trail -->
-        <div class="emoji-trail"></div>
+        <!-- <div class="emoji-trail"></div> -->
         <div class="emoji-glow"></div>
       </div>
     </div>
