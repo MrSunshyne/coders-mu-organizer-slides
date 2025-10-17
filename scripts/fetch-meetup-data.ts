@@ -1,6 +1,6 @@
 #!/usr/bin/env node --experimental-strip-types
 
-import { readFileSync, writeFileSync } from 'fs'
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
 import { resolve } from 'path'
 
 // Data source URLs
@@ -55,6 +55,33 @@ interface Meetup {
   sponsors: Sponsor[]
 }
 
+interface SpeakerOverride {
+  name?: string
+  talkTitle?: string
+  githubUsername?: string
+  githubAvatar?: string
+  company?: string
+  jobTitle?: string
+  bio?: string
+}
+
+interface MeetupDataOverride {
+  meetup?: {
+    title?: string
+    date?: string
+    venue?: string
+    location?: string
+    time?: string
+  }
+  speakers?: {
+    [key: string]: SpeakerOverride  // Key by speaker name or index
+  }
+  sponsor?: {
+    name?: string
+    logo?: string
+  }
+}
+
 interface MeetupData {
   meetup: {
     id: number
@@ -69,6 +96,9 @@ interface MeetupData {
     talkTitle: string
     githubUsername: string | null
     githubAvatar: string | null
+    company?: string
+    jobTitle?: string
+    bio?: string
   }>
   sponsor: {
     name: string
@@ -76,21 +106,42 @@ interface MeetupData {
   } | null
 }
 
+interface Config {
+  meetupId: string
+  speakerExtraFields: string[]
+}
+
 /**
- * Read the slides config to get the meetup ID
+ * Read the slides config to get the meetup ID and speaker extra fields
  */
-function readConfig(): string {
+function readConfig(): Config {
   try {
     const configPath = resolve(process.cwd(), 'slides.config.ts')
     const configContent = readFileSync(configPath, 'utf-8')
     
-    // Simple parsing - extract the id value
-    const match = configContent.match(/id:\s*['"](\d+)['"]/)
-    if (!match) {
+    // Extract the id value
+    const idMatch = configContent.match(/id:\s*['"](\d+)['"]/)
+    if (!idMatch) {
       throw new Error('Could not find meetup id in slides.config.ts')
     }
     
-    return match[1]
+    // Extract speaker extra fields
+    const extraFieldsMatch = configContent.match(/extraFields:\s*\[(.*?)\]/s)
+    let speakerExtraFields: string[] = []
+    
+    if (extraFieldsMatch) {
+      // Parse the array content
+      const fieldsStr = extraFieldsMatch[1]
+      speakerExtraFields = fieldsStr
+        .split(',')
+        .map(s => s.trim().replace(/['"]/g, ''))
+        .filter(s => s.length > 0)
+    }
+    
+    return {
+      meetupId: idMatch[1],
+      speakerExtraFields
+    }
   } catch (error) {
     console.error('Error reading config:', error)
     throw error
@@ -120,10 +171,217 @@ function getGithubAvatar(username: string | null): string | null {
 }
 
 /**
+ * Create override template file if it doesn't exist
+ */
+function createOverrideTemplate(speakers: string[], extraFields: string[]): void {
+  const overridePath = resolve(process.cwd(), 'meetup-data.override.json')
+  
+  if (existsSync(overridePath)) {
+    console.log('\n📝 Override file already exists, skipping template generation')
+    return
+  }
+  
+  // Build speaker override template with dynamic extra fields
+  const speakerTemplate: any = {}
+  
+  // Add extra fields from config as placeholders
+  extraFields.forEach(field => {
+    speakerTemplate[field] = null
+  })
+  
+  const template: any = {
+    meetup: {},
+    speakers: speakers.reduce((acc, name) => {
+      acc[name] = { ...speakerTemplate }
+      return acc
+    }, {} as { [key: string]: any }),
+    sponsor: {}
+  }
+  
+  writeFileSync(overridePath, JSON.stringify(template, null, 2), 'utf-8')
+  console.log('✨ Created meetup-data.override.json template')
+  console.log(`   Extra fields from config: ${extraFields.join(', ') || 'none'}`)
+  console.log('   Edit speaker fields to add overrides (set to null to keep original values)')
+}
+
+/**
+ * Read and parse override file if it exists
+ */
+function readOverrides(): MeetupDataOverride | null {
+  const overridePath = resolve(process.cwd(), 'meetup-data.override.json')
+  
+  if (!existsSync(overridePath)) {
+    return null
+  }
+  
+  try {
+    const content = readFileSync(overridePath, 'utf-8')
+    const overrides = JSON.parse(content)
+    console.log('✅ Loaded overrides from meetup-data.override.json')
+    return overrides
+  } catch (error) {
+    console.error('❌ Failed to parse override file:')
+    if (error instanceof SyntaxError) {
+      console.error(`   JSON syntax error: ${error.message}`)
+      console.error('   Please check for trailing commas, missing quotes, or other JSON syntax issues')
+    } else {
+      console.error(`   ${error}`)
+    }
+    console.error('   Skipping overrides - fix the file and run again')
+    return null
+  }
+}
+
+/**
+ * Apply overrides to meetup data
+ * Skips null values to keep original data
+ */
+function applyOverrides(data: MeetupData, overrides: MeetupDataOverride | null): MeetupData {
+  if (!overrides) return data
+  
+  // Helper to filter out null values
+  const removeNulls = (obj: any): any => {
+    return Object.fromEntries(
+      Object.entries(obj).filter(([_, v]) => v !== null)
+    )
+  }
+  
+  console.log('\n🔄 Applying overrides...')
+  
+  // Apply meetup overrides (skip null values)
+  if (overrides.meetup) {
+    const validOverrides = removeNulls(overrides.meetup)
+    if (Object.keys(validOverrides).length > 0) {
+      console.log(`   ✓ Meetup overrides: ${Object.keys(validOverrides).join(', ')}`)
+      data.meetup = { ...data.meetup, ...validOverrides }
+    }
+  }
+  
+  // Apply speaker overrides (skip null values)
+  if (overrides.speakers) {
+    data.speakers = data.speakers.map(speaker => {
+      const override = overrides.speakers![speaker.name]
+      if (override) {
+        const validOverrides = removeNulls(override)
+        if (Object.keys(validOverrides).length > 0) {
+          console.log(`   ✓ ${speaker.name}: ${Object.keys(validOverrides).join(', ')}`)
+          return { ...speaker, ...validOverrides }
+        }
+      }
+      return speaker
+    })
+  }
+  
+  // Apply sponsor overrides (skip null values)
+  if (overrides.sponsor && data.sponsor) {
+    const validOverrides = removeNulls(overrides.sponsor)
+    if (Object.keys(validOverrides).length > 0) {
+      console.log(`   ✓ Sponsor overrides: ${Object.keys(validOverrides).join(', ')}`)
+      data.sponsor = { ...data.sponsor, ...validOverrides }
+    }
+  }
+  
+  return data
+}
+
+/**
  * Build sponsor logo URL
  */
 function getSponsorLogoUrl(filename: string): string {
   return `https://frontend.mu/assets/${filename}`
+}
+
+/**
+ * Generate markdown slide for a speaker
+ */
+function generateSpeakerSlide(speaker: {
+  name: string
+  talkTitle: string
+  githubUsername: string | null
+  githubAvatar: string | null
+  company?: string
+  jobTitle?: string
+  bio?: string
+}, index: number): string {
+  const avatarSection = speaker.githubAvatar
+    ? `<img src="${speaker.githubAvatar}" alt="${speaker.name}" class="w-full h-full object-cover" />`
+    : `<div class="flex items-center justify-center h-full text-white text-6xl font-bold">${speaker.name.charAt(0)}</div>`
+
+  // Build extra fields HTML
+  const extraFields: string[] = []
+  if (speaker.company) {
+    extraFields.push(`  <p class="text-xl text-white/80">${speaker.company}</p>`)
+  }
+  if (speaker.jobTitle) {
+    extraFields.push(`  <p class="text-lg text-white/70">${speaker.jobTitle}</p>`)
+  }
+  if (speaker.bio) {
+    extraFields.push(`  <p class="text-base text-white/60 mt-4">${speaker.bio}</p>`)
+  }
+  const extraFieldsHtml = extraFields.length > 0 ? '\n' + extraFields.join('\n') : ''
+
+  return `---
+layout: two-cols
+---
+
+::default::
+
+# ${speaker.talkTitle}
+
+${speaker.githubUsername ? `**GitHub:** @${speaker.githubUsername}` : ''}
+
+::right::
+
+<div class="flex flex-col items-center justify-center h-full gap-6">
+  <div class="w-300px h-300px rounded-full overflow-hidden border-4 border-white shadow-2xl">
+    ${avatarSection}
+  </div>
+  <h2 class="text-4xl font-bold text-white text-center">${speaker.name}</h2>${extraFieldsHtml}
+</div>
+`
+}
+
+/**
+ * Generate all speaker slide files
+ */
+function generateSpeakerSlides(speakers: Array<{
+  name: string
+  talkTitle: string
+  githubUsername: string | null
+  githubAvatar: string | null
+  company?: string
+  jobTitle?: string
+  bio?: string
+}>): void {
+  // Ensure the directory exists
+  const speakersDir = resolve(process.cwd(), 'pages/generated/speakers')
+  mkdirSync(speakersDir, { recursive: true })
+
+  console.log(`\n📝 Generating speaker slides...`)
+  
+  speakers.forEach((speaker, index) => {
+    const slideContent = generateSpeakerSlide(speaker, index)
+    const filename = `speaker-${index + 1}.md`
+    const filepath = resolve(speakersDir, filename)
+    
+    writeFileSync(filepath, slideContent, 'utf-8')
+    console.log(`   ✓ Created ${filename} for ${speaker.name}`)
+  })
+  
+  console.log(`\n✨ Generated ${speakers.length} speaker slide(s)`)
+  
+  // Generate the slides.md snippet
+  const slidesSnippet = speakers.map((_, index) => {
+    return `---
+src: ./pages/generated/speakers/speaker-${index + 1}.md
+hide: false
+---`
+  }).join('\n\n')
+  
+  const snippetPath = resolve(process.cwd(), 'pages/generated/speakers-slides.txt')
+  writeFileSync(snippetPath, slidesSnippet, 'utf-8')
+  console.log(`\n📋 Slide references saved to: pages/generated/speakers-slides.txt`)
+  console.log(`   Copy and paste these into your slides.md file!`)
 }
 
 /**
@@ -133,8 +391,9 @@ async function fetchMeetupData() {
   console.log('🚀 Fetching meetup data...\n')
   
   // Read config
-  const meetupId = readConfig()
-  console.log(`📋 Meetup ID: ${meetupId}\n`)
+  const config = readConfig()
+  console.log(`📋 Meetup ID: ${config.meetupId}`)
+  console.log(`📝 Speaker extra fields: ${config.speakerExtraFields.join(', ') || 'none'}\n`)
   
   // Fetch all data sources
   const [meetupsData, speakersData, sponsorsData] = await Promise.all([
@@ -148,10 +407,10 @@ async function fetchMeetupData() {
   console.log(`✅ Fetched ${sponsorsData.length} sponsors\n`)
   
   // Find the specific meetup
-  const meetup = meetupsData.find(m => m.id === parseInt(meetupId))
+  const meetup = meetupsData.find(m => m.id === parseInt(config.meetupId))
   
   if (!meetup) {
-    throw new Error(`Meetup with id ${meetupId} not found`)
+    throw new Error(`Meetup with id ${config.meetupId} not found`)
   }
   
   console.log(`📅 Found meetup: "${meetup.title}"\n`)
@@ -186,8 +445,8 @@ async function fetchMeetupData() {
     console.log(`\n🏢 Sponsor: ${sponsor.name}`)
   }
   
-  // Build the final data structure
-  const meetupData: MeetupData = {
+  // Build the initial data structure
+  let meetupData: MeetupData = {
     meetup: {
       id: meetup.id,
       title: meetup.title,
@@ -200,15 +459,29 @@ async function fetchMeetupData() {
     sponsor,
   }
   
+  // Create override template (only if doesn't exist)
+  createOverrideTemplate(speakers.map(s => s.name), config.speakerExtraFields)
+  
+  // Read and apply overrides
+  const overrides = readOverrides()
+  meetupData = applyOverrides(meetupData, overrides)
+  
   // Save to file
   const outputPath = resolve(process.cwd(), 'meetup-data.json')
   writeFileSync(outputPath, JSON.stringify(meetupData, null, 2), 'utf-8')
   
   console.log(`\n✨ Data saved to: meetup-data.json`)
+  
+  // Generate speaker slides
+  generateSpeakerSlides(meetupData.speakers)
+  
   console.log('\n' + '='.repeat(50))
-  console.log('Preview:')
+  console.log('Summary:')
   console.log('='.repeat(50))
-  console.log(JSON.stringify(meetupData, null, 2))
+  console.log(`Meetup: ${meetup.title}`)
+  console.log(`Speakers: ${speakers.length}`)
+  console.log(`Sponsor: ${sponsor?.name || 'None'}`)
+  console.log('='.repeat(50))
 }
 
 // Run the script

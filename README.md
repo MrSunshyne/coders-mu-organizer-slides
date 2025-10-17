@@ -23,3 +23,10 @@ This deck covers modern CSS features that are changing how we build web interfac
 Created by [Sandeep Ramgolam](https://sandeep.ramgolam.com) for developer conferences and workshops. The presentation demonstrates practical CSS techniques with live examples and interactive demonstrations.
 
 Built with [Slidev](https://sli.dev/) for an enhanced presentation experience.
+
+
+## How to update speaker data and sponsor data
+
+1. pnpm run fetch-meetup
+    Will fetch the meetup data from the frontend.mu repository and save it to the `meetup-data.json` file.
+2. Edit the `meetup-data.override.json` file to override the speaker data.

@@ -1,0 +1,24 @@
+---
+src: ./pages/generated/speakers/speaker-1.md
+hide: false
+---
+
+---
+src: ./pages/generated/speakers/speaker-2.md
+hide: false
+---
+
+---
+src: ./pages/generated/speakers/speaker-3.md
+hide: false
+---
+
+---
+src: ./pages/generated/speakers/speaker-4.md
+hide: false
+---
+
+---
+src: ./pages/generated/speakers/speaker-5.md
+hide: false
+---

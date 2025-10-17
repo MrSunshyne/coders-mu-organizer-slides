@@ -53,22 +53,52 @@ The last comment block of each slide will be treated as slide notes. It will be 
 -->
 
 ---
-src: ./pages/2025-10-18/test-theme.md
+src: ./pages/generated/sponsor.md
 hide: false
 ---
 
 ---
-src: ./pages/2025-10-18/test-two-cols.md
+src: ./pages/generated/speakers/speaker-1.md
 hide: false
 ---
 
 ---
-src: ./pages/2025-10-18/test-image-right.md
+src: ./pages/generated/speakers/speaker-2.md
 hide: false
 ---
 
 ---
-src: ./pages/2025-10-18/test-center.md
+src: ./pages/generated/speakers/speaker-3.md
+hide: false
+---
+
+---
+src: ./pages/generated/speakers/speaker-4.md
+hide: false
+---
+
+---
+src: ./pages/generated/speakers/speaker-5.md
+hide: false
+---
+
+---
+src: ./pages/examples/test-theme.md
+hide: false
+---
+
+---
+src: ./pages/examples/test-two-cols.md
+hide: false
+---
+
+---
+src: ./pages/examples/test-image-right.md
+hide: false
+---
+
+---
+src: ./pages/examples/test-center.md
 hide: false
 ---
 
@@ -212,6 +242,7 @@ hide: false
 src: ./pages/content/custom-functions.md
 hide: false
 ---
+
 
 ---
 src: ./pages/content/thank-you.md

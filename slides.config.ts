@@ -4,5 +4,8 @@ export default {
   },
   meetups: {
     id: '66'
+  },
+  speakers: {
+    extraFields: ['company', 'jobtitle']
   }
 }

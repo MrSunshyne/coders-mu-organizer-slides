@@ -1,0 +1,27 @@
+{
+  "meetup": {},
+  "speakers": {
+    "Sandeep Ramgolam": {
+      "company": "Livestorm",
+      "jobtitle": null,
+      "githubAvatar": "https://github.com/cedpoilly.png"
+    },
+    "Danshil Kokil Mungur": {
+      "company": null,
+      "jobtitle": null
+    },
+    "Primrose Lunda": {
+      "company": null,
+      "jobtitle": null
+    },
+    "Joshua Iwugod": {
+      "company": null,
+      "jobtitle": null
+    },
+    "Saamiyah Peerun": {
+      "company": null,
+      "jobtitle": null
+    }
+  },
+  "sponsor": {}
+}
