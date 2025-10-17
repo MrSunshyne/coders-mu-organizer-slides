@@ -29,7 +29,7 @@ const props = defineProps<{
         </p>
         
         <!-- Heading (large, bold) -->
-        <h1 v-if="heading" class="!text-3xl !text-theme-orange mb-6 leading-tight">
+        <h1 v-if="heading" class="!text-3xl !text-theme-orange mb-6 leading-tight" style="view-transition-name: heading">
           {{ heading }}
         </h1>
         

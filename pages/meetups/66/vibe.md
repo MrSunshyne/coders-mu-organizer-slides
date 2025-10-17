@@ -2,14 +2,21 @@
 layout: intro
 ---
 
-# Vibe Coding
+<h1 style="view-transition-name: heading">Vibe Coding</h1>
 
 ---
 layout: simple
-tagline: Sandeep Ramgolam
+tagline: coders.mu
 heading: Vibe Coding
-text: Experiences and lessons learned
 ---
+
+<div class="flex items-center justify-center">
+    <div class="flex flex-col">
+        <h2>Experiences and lessons learned</h2>
+        <p class="text-xl font-bold text-gray-400">a presentation by Sandeep Ramgolam</p>
+    </div>
+</div>
+
 
 ---
 layout: simple
