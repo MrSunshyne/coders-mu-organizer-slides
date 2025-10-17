@@ -58,7 +58,6 @@ const sponsorLogo = computed(() => {
   border-radius: 1rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   border: 4px solid #000;
-  view-transition-name: card-layer-white;
 }
 
 .sponsor-logo {
