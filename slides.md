@@ -8,12 +8,12 @@ download: true
 # like them? see https://unsplash.com/collections/94734566/slidev
 background: https://cover.sli.dev
 # some information about your slides (markdown enabled)
-title: CSS is FUN
+title: Coders.mu Organizer Slides
 info: |
-  ## CSS is fun in 2025
+  ## Coders.mu Organizer Slides
   
   By [Sandeep Ramgolam](https://github.com/MrSunshyne)
-  Blog at [sandeep.ramgolam.com](https://sandeep.ramgolam.com)
+  Community at [coders.mu](https://coders.mu)
 # apply unocss classes to the current slide
 class: text-center
 # https://sli.dev/features/drawing
