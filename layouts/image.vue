@@ -8,8 +8,12 @@ const props = defineProps<{
 }>()
 
 const photoUrl = computed(() => {
-  //prepend photo with /coders-mu-organizer-slides in github pages but in local use unchanged
-  return process.env.GITHUB_ACTIONS ? `/coders-mu-organizer-slides/${props.photo}` : props.photo
+  if (!props.photo) return ''
+  // import.meta.env.BASE_URL is '/' in dev, '/coders-mu-organizer-slides/' in production
+  const base = import.meta.env.BASE_URL
+  // Remove leading slash from photo if present, then join with base
+  const cleanPhoto = props.photo.startsWith('/') ? props.photo.slice(1) : props.photo
+  return `${base}${cleanPhoto}`
 })
 </script>
 
