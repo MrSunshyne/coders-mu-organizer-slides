@@ -31,7 +31,7 @@ seoMeta:
   # ogImage: https://cover.sli.dev
 ---
 
-# Hi
+# Coders.mu Deck
 
 
 
@@ -55,6 +55,10 @@ The last comment block of each slide will be treated as slide notes. It will be 
 ---
 src: ./pages/generated/sponsor.md
 hide: false
+---
+
+---
+src: ./pages/meetups/66/community.md
 ---
 
 ---
@@ -107,144 +111,3 @@ src: ./pages/intro/qr.md
 hide: false
 ---
 
----
-src: ./pages/intro/topic.md
-hide: false
----
-
----
-src: ./pages/intro/speaker-introduction.md
-hide: false
----
-
----
-src: ./pages/intro/speaker-find-me.md
-hide: false
----
-
----
-src: ./pages/content/plan.md
-hide: true
----
-
----
-src: ./pages/intro/icebreaker.md
-hide: false
----
-
----
-src: ./pages/content/grid.md
-hide: false
----
-
----
-src: ./pages/content/variables.md
-hide: false
----
-
----
-src: ./pages/content/baseline.md
-hide: false
----
-
----
-src: ./pages/content/subgrid.md
-hide: false
----
-
----
-src: ./pages/content/nesting.md
-hide: false
----
-
----
-src: ./pages/content/aspect-ratio.md
-hide: false
----
-
----
-src: ./pages/content/accent-color.md
-hide: false
----
-
----
-src: ./pages/content/text-wrap-balance.md
-hide: false
----
-
----
-src: ./pages/content/container-queries.md
-hide: false
----
-
----
-src: ./pages/content/has-selector.md
-hide: false
----
-
----
-src: ./pages/content/scope.md
-hide: false
----
-
----
-src: ./pages/content/view-transitions.md
-hide: false
----
-
----
-src: ./pages/content/scroll-animations.md
-hide: false
----
-
----
-src: ./pages/content/popover.md
-hide: false
----
-
----
-src: ./pages/content/invoker.md
-hide: false
----
-
----
-src: ./pages/content/math-functions.md
-hide: false
----
-
----
-src: ./pages/content/sibling-functions.md
-hide: false
----
-
-
----
-src: ./pages/content/if.md
-hide: false
----
-
----
-src: ./pages/content/if-state-based.md
-hide: false
----
-
----
-src: ./pages/content/random.md
-hide: false
----
-
----
-src: ./pages/content/anchor-positioning.md
-hide: false
----
-
----
-src: ./pages/content/custom-functions.md
-hide: false
----
-
-
----
-src: ./pages/content/thank-you.md
-hide: false
----
