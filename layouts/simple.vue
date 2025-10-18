@@ -44,7 +44,7 @@ const props = defineProps<{
         </div>
         
         <!-- Or slot after props if they exist -->
-        <div v-else class="mt-8">
+        <div v-else >
           <slot />
         </div>
       </div>
